@@ -14,8 +14,6 @@ public class PatternRecognition {
 
     public void isPattern(int numberOfPoints, Points... points) {
         Map<String, Double> passedInput = new HashMap<>();
-        Collection<Double> temp = passedInput.values();
-        Set<Set<String>> duplicates = new HashSet<Set<String>>();
 
         if (numberOfPoints > points.length) {
             System.out.println("You Chose parameter N equal to "
@@ -24,26 +22,29 @@ public class PatternRecognition {
                     + points.length
                     + " parameters as the input");
         } else {
+            String pivot = "";
             for (int i = 0; i < points.length - 1; i++) {
+                pivot = "Point(" + points[i].getX() + "," + points[i].getY() + ")";
                 for (Points point : points) {
                     passedInput.put("Point(" + point.getX() + "," + point.getY() + ")", getAngle(points[i], point));
                 }
-                for (Double t : temp) {
-                    if (Collections.frequency(temp, t) > numberOfPoints - 1) {
-                        duplicates.add(getKeysByValue(passedInput, t));
-                        duplicates.add(Collections.singleton("Point(" + points[i].getX() + "," + points[i].getY() + ")"));
+
+                final List<List<Map.Entry<String, Double>>> groupedPoints =
+                        passedInput.entrySet().stream().collect(Collectors.groupingBy(Map.Entry::getValue))
+                                .entrySet().stream()
+                                .map(Map.Entry::getValue).collect(Collectors.toList());
+                for (List<Map.Entry<String, Double>> gp : groupedPoints) {
+                    if (!gp.contains(Map.entry(pivot, gp.get(0).getValue()))) {
+                        gp.add(Map.entry(pivot, gp.get(0).getValue()));
                     }
                 }
-                if (!duplicates.isEmpty()) {
-                    System.out.println(duplicates);
-                    duplicates.clear();
+                for (List<Map.Entry<String, Double>> groupedPoint : groupedPoints) {
+                    if (groupedPoint.size() >= numberOfPoints) {
+                        System.out.println(groupedPoint);
+                    }
                 }
             }
         }
-    }
-
-    public static <T, E> Set<T> getKeysByValue(Map<T, E> map, E value) {
-        return map.entrySet().stream().filter(e -> Objects.equals(e.getValue(), value)).map(Map.Entry::getKey).collect(Collectors.toSet());
     }
 }
 
