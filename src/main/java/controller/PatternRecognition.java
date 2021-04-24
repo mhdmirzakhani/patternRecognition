@@ -25,18 +25,16 @@ public class PatternRecognition {
                     + " parameters as the input");
         } else {
             for (int i = 0; i < points.length - 1; i++) {
-                System.out.println("Now the PIVOT is " + "Point(" + points[i].getX() + "," + points[i].getY() + ")");
                 for (Points point : points) {
                     passedInput.put("Point(" + point.getX() + "," + point.getY() + ")", getAngle(points[i], point));
                 }
                 for (Double t : temp) {
                     if (Collections.frequency(temp, t) > numberOfPoints - 1) {
                         duplicates.add(getKeysByValue(passedInput, t));
+                        duplicates.add(Collections.singleton("Point(" + points[i].getX() + "," + points[i].getY() + ")"));
                     }
                 }
-                if (duplicates.isEmpty()) {
-                    System.out.println("No pattern Founded!");
-                } else {
+                if (!duplicates.isEmpty()) {
                     System.out.println(duplicates);
                     duplicates.clear();
                 }
