@@ -1,10 +1,13 @@
 package com.patternRecognition.controller;
 
 import com.patternRecognition.model.Point;
+import org.springframework.web.bind.annotation.RestController;
+
 import java.util.*;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@RestController
 public class PointController {
 
     public double getAngle(Point point1, Point point2) {
