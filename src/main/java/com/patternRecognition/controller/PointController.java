@@ -1,18 +1,17 @@
-package controller;
+package com.patternRecognition.controller;
 
-import model.Points;
-
+import com.patternRecognition.model.Point;
 import java.util.*;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class PatternRecognition {
+public class PointController {
 
-    public double getAngle(Points point1, Points point2) {
+    public double getAngle(Point point1, Point point2) {
         return Math.atan((point2.getY() - point1.getY()) / (point2.getX() - point1.getX()));
     }
 
-    public void isPattern(int numberOfPoints, Points... points) {
+    public void isPattern(int numberOfPoints, Point... points) {
         Map<String, Double> passedInput = new HashMap<>();
 
         if (numberOfPoints > points.length) {
@@ -25,7 +24,7 @@ public class PatternRecognition {
             String pivot = "";
             for (int i = 0; i < points.length - 1; i++) {
                 pivot = "Point(" + points[i].getX() + "," + points[i].getY() + ")";
-                for (Points point : points) {
+                for (Point point : points) {
                     passedInput.put("Point(" + point.getX() + "," + point.getY() + ")", getAngle(points[i], point));
                 }
 

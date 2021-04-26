@@ -1,11 +1,11 @@
-package model;
+package com.patternRecognition.model;
 
-public class Points {
+public class Point {
     private double x;
     private double y;
-    public Points() {
+    public Point() {
     }
-    public Points(double x, double y) {
+    public Point(double x, double y) {
         this.x = x;
         this.y = y;
     }
