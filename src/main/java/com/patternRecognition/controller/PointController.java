@@ -45,10 +45,21 @@ public class PointController {
         return new ResponseEntity<ArrayList<ArrayList<String>>>(findAllLines(n, Main.points), HttpStatus.OK);
     }
 
+    /**
+     * @param point1
+     * @param point2
+     * @return the angle between this two point
+     */
     public double getAngle(Point point1, Point point2) {
         return Math.atan((point2.getY() - point1.getY()) / (point2.getX() - point1.getX()));
     }
 
+    /**
+     * @param numberOfPoints or the parameter N
+     *                       this parameter specify the minimum length of expected lines
+     * @param points
+     * @return
+     */
     private ArrayList<ArrayList<String>> findAllLines(int numberOfPoints, ArrayList<Point> points) {
         ArrayList<ArrayList<String>> result = new ArrayList<>();
         Map<String, Double> passedInput = new HashMap<>();
@@ -68,17 +79,27 @@ public class PointController {
                     passedInput.put("Point(" + points.get(i).getX() + "," + points.get(i).getY() + ")", getAngle(points.get(i), point));
                 }
 
+                /**
+                 * here we made sets of point
+                 * these sets include all points that made a same angle with pivot
+                 */
                 final List<List<Map.Entry<String, Double>>> groupedPoints =
                         passedInput.entrySet().stream().collect(Collectors.groupingBy(Map.Entry::getValue))
                                 .entrySet().stream()
                                 .map(Map.Entry::getValue).collect(Collectors.toList());
 
+                /**
+                 * Adding pivot to the list created at the previous step
+                 */
                 for (List<Map.Entry<String, Double>> gp : groupedPoints) {
                     if (!gp.contains(Map.entry(pivot, gp.get(0).getValue()))) {
                         gp.add(Map.entry(pivot, gp.get(0).getValue()));
                     }
                 }
 
+                /**
+                 * Returning all founded lines
+                 */
                 for (List<Map.Entry<String, Double>> groupedPoint : groupedPoints) {
                     if (groupedPoint.size() >= numberOfPoints) {
                         ArrayList<String> temp = new ArrayList<>();

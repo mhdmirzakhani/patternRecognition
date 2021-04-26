@@ -9,8 +9,6 @@ Feature detection involves selecting important features of the image; pattern re
 We will investigate a particularly clean pattern recognition problem involving points and line segments.
 This kind of pattern recognition arises in many other applications, for example statistical data analysis.
 
-- ✨Magic ✨
-
 ## Problem
 Given a set of N feature points in the plane, determine every line that contains N or more of the points, and
 return all points involved.
